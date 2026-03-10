@@ -6,11 +6,14 @@ public class PlayerMovement : MonoBehaviour
 {
     public Animator animator;
 
-    
+    GameObject gameManager;
+
+    public int score;
     // Start is called before the first frame update
     void Start()
     {
-        
+        gameManager = GameObject.Find("GameManager");
+        score = 0;
     }
 
     // Update is called once per frame
@@ -34,16 +37,24 @@ public class PlayerMovement : MonoBehaviour
         
     }
 
-    // void OnTriggerEnter2D(Collider2D collision)
-    // {
-    //     if (collision.CompareTag("Terrain"))
-    //     {
-    //         playerDeath();
-    //     }
-    // }
+    void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.CompareTag("Ground"))
+        {
+            Debug.Log("Player has collided with the ground");
+            playerDeath();
+        }
+        else if (collision.CompareTag("Coin"))
+        {
+            Debug.Log("Player has collected a coin");
+            score += collision.GetComponent<CoinLogic>().collectCoin();
+        }
+    }
 
     void playerDeath()
     {
-        this.transform.position = new Vector3(-5f, 0f, 0f);
+        Debug.Log("Player has died");
+        gameManager.GetComponent<GameManager>().gameOver(score);
+        this.gameObject.SetActive(false);
     }
 }

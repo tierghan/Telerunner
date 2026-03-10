@@ -11,6 +11,7 @@ TagManager:
   - TerrainManager
   - Border
   - Background
+  - Coin
   layers:
   - Default
   - TransparentFX
