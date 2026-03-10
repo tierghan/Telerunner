@@ -7,11 +7,15 @@ TagManager:
   - TPTarget
   - SpeedReduce
   - SpeedBoost
+  - Ground
+  - TerrainManager
+  - Border
+  - Background
   layers:
   - Default
   - TransparentFX
   - Ignore Raycast
-  - 
+  - Background
   - Water
   - UI
   - 

@@ -30,13 +30,13 @@ public class CrosshairMovement : MonoBehaviour
 
     private void FollowMousePosition()
     {
-        if (GetWorldPositionFromMouse().y >= 4)
+        if (GetWorldPositionFromMouse().y >= 3.5f)
         {
-            currentY = 4;
+            currentY = 3.5f;
         }
-        else if (GetWorldPositionFromMouse().y <= -4)
+        else if (GetWorldPositionFromMouse().y <= -4.5f)
         {
-            currentY = -4;
+            currentY = -4.5f;
         }
         else
         {

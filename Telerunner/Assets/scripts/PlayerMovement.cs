@@ -5,6 +5,8 @@ using UnityEngine;
 public class PlayerMovement : MonoBehaviour
 {
     public Animator animator;
+
+    
     // Start is called before the first frame update
     void Start()
     {
@@ -23,11 +25,25 @@ public class PlayerMovement : MonoBehaviour
         {
             this.transform.position = GameObject.FindWithTag("TPTarget").transform.position;
         }
+
     }
     private void playerTeleport()
     {
         GameObject crosshair = GameObject.FindWithTag("TPTarget");
         
         
+    }
+
+    // void OnTriggerEnter2D(Collider2D collision)
+    // {
+    //     if (collision.CompareTag("Terrain"))
+    //     {
+    //         playerDeath();
+    //     }
+    // }
+
+    void playerDeath()
+    {
+        this.transform.position = new Vector3(-5f, 0f, 0f);
     }
 }
