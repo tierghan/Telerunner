@@ -11,6 +11,7 @@ public class TerrainManagerScript : MonoBehaviour
 
     public float terrainSpeed = 5e-06f;
     public float speedIncreaseRate = 0.00000005f;
+    public float boostKey = 1f;
 
     GameObject border;
     GameObject background;
@@ -40,7 +41,7 @@ public class TerrainManagerScript : MonoBehaviour
             }
         else
         {
-            terrainSpeed += (speedIncreaseRate*terrainStopper);
+            terrainSpeed += ((speedIncreaseRate*terrainStopper)*boostKey);
             border.transform.position = new Vector3(border.transform.position.x - (terrainSpeed+(terrainSpeed/2)), border.transform.position.y, border.transform.position.z);
             background.transform.position = new Vector3(background.transform.position.x - (terrainSpeed + (terrainSpeed/4)), background.transform.position.y, background.transform.position.z);
             if (background.transform.position.x <= -37f)
@@ -52,6 +53,21 @@ public class TerrainManagerScript : MonoBehaviour
                 border.transform.position = new Vector3(0f, border.transform.position.y, border.transform.position.z);
             }
         }
+        if (Input.GetKey(KeyCode.Space) && started == true && running == true)
+        {
+            Debug.Log("Boost Key Activated, Current terrainSpeed increase increment: "+ ((speedIncreaseRate*terrainStopper)*boostKey));
+            boostKey = 80f;
+        }
+        else if (Input.GetKeyUp(KeyCode.Space))
+        {
+            Debug.Log("Boost Key Deactivated");
+            boostKey = 1f;
+        }
+        else if (Input.GetKey(KeyCode.Space) && running == false)
+        {
+            Debug.Log("Boost Key Activated, Current terrainSpeed increase increment: "+ ((speedIncreaseRate*terrainStopper)*boostKey));
+            boostKey = 150f;
+        }
     }
 
     public void generateTerrain()
@@ -61,13 +77,18 @@ public class TerrainManagerScript : MonoBehaviour
 
     public void speedBoost()
     {
-        Debug.Log("Speed Boost Activated");
-        terrainSpeed += speedIncreaseRate*200;
+        Debug.Log("Speed Boost Activated| Speed before boost:" + speedIncreaseRate);
+        speedIncreaseRate += (speedIncreaseRate*.60f);
+        Debug.Log("Speed after boost:" + speedIncreaseRate);
     }
 
     public void speedReduce()
     {
-        Debug.Log("Speed Reduce Activated");
-        terrainSpeed -= speedIncreaseRate*200;
+        Debug.Log("Speed Reduce Activated| Speed before reduction:" + speedIncreaseRate);
+        if (speedIncreaseRate >= 0.00000005f)
+        {
+            speedIncreaseRate -= (speedIncreaseRate*.30f);
+        }
+        Debug.Log("Speed after reduction:" + speedIncreaseRate);
     }
 }

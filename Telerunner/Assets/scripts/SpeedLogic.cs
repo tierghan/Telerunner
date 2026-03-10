@@ -10,9 +10,12 @@ public class SpeedLogic : MonoBehaviour
 
     GameObject terrainManager;
 
+    AudioSource audio;
+
     void Start()
     {
         terrainManager = GameObject.FindWithTag("TerrainManager");
+        audio = GetComponent<AudioSource>();
     }
 
     void OnTriggerEnter2D(Collider2D other)
@@ -28,6 +31,7 @@ public class SpeedLogic : MonoBehaviour
                 Debug.Log("Speed Reduce Requested");
                 terrainManager.GetComponent<TerrainManagerScript>().speedReduce();
             }
+            audio.Play();
         }
     }
 

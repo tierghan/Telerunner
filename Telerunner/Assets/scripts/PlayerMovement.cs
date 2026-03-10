@@ -7,6 +7,10 @@ public class PlayerMovement : MonoBehaviour
     public Animator animator;
 
     GameObject gameManager;
+    AudioSource audio;
+
+    bool playerDead = false;
+
 
     public int score;
     // Start is called before the first frame update
@@ -14,12 +18,13 @@ public class PlayerMovement : MonoBehaviour
     {
         gameManager = GameObject.Find("GameManager");
         score = 0;
+        audio = GetComponent<AudioSource>();
     }
 
     // Update is called once per frame
     void Update()
     {
-        if(Input.GetMouseButton(0) && animator.GetCurrentAnimatorStateInfo(0).IsName("Idle"))
+        if(Input.GetMouseButton(0) && animator.GetCurrentAnimatorStateInfo(0).IsName("Idle") && playerDead == false)
         {
             animator.SetTrigger("triggerTeleport");
             playerTeleport();
@@ -28,7 +33,6 @@ public class PlayerMovement : MonoBehaviour
         {
             this.transform.position = GameObject.FindWithTag("TPTarget").transform.position;
         }
-
     }
     private void playerTeleport()
     {
@@ -54,7 +58,9 @@ public class PlayerMovement : MonoBehaviour
     void playerDeath()
     {
         Debug.Log("Player has died");
+        playerDead = true;
         gameManager.GetComponent<GameManager>().gameOver(score);
-        this.gameObject.SetActive(false);
+        audio.Play();
+        this.transform.position = new Vector3(-50f, 0f, 0f);
     }
 }
