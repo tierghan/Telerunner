@@ -30,29 +30,22 @@ public class TerrainManagerScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (started == true && running == false)
+        
+        terrainSpeed += ((speedIncreaseRate*terrainStopper)*boostKey);
+        border.transform.position = new Vector3(border.transform.position.x - (terrainSpeed+(terrainSpeed/2)), border.transform.position.y, border.transform.position.z);
+        background.transform.position = new Vector3(background.transform.position.x - (terrainSpeed + (terrainSpeed/4)), background.transform.position.y, background.transform.position.z);
+        
+        
+        if (background.transform.position.x <= -37f)
         {
-            generateTerrain();
-            running = true;
+            background.transform.position = new Vector3(3f, background.transform.position.y, background.transform.position.z);
         }
-        else if(Time.time >=5f && started == false)
-            {
-                started = true;
-            }
-        else
+        if (border.transform.position.x <= -40f)
         {
-            terrainSpeed += ((speedIncreaseRate*terrainStopper)*boostKey);
-            border.transform.position = new Vector3(border.transform.position.x - (terrainSpeed+(terrainSpeed/2)), border.transform.position.y, border.transform.position.z);
-            background.transform.position = new Vector3(background.transform.position.x - (terrainSpeed + (terrainSpeed/4)), background.transform.position.y, background.transform.position.z);
-            if (background.transform.position.x <= -37f)
-            {
-                background.transform.position = new Vector3(3f, background.transform.position.y, background.transform.position.z);
-            }
-            if (border.transform.position.x <= -40f)
-            {
-                border.transform.position = new Vector3(0f, border.transform.position.y, border.transform.position.z);
-            }
+            border.transform.position = new Vector3(0f, border.transform.position.y, border.transform.position.z);
         }
+
+
         if (Input.GetKey(KeyCode.Space) && started == true && running == true)
         {
             Debug.Log("Boost Key Activated, Current terrainSpeed increase increment: "+ ((speedIncreaseRate*terrainStopper)*boostKey));
@@ -79,6 +72,7 @@ public class TerrainManagerScript : MonoBehaviour
     {
         Debug.Log("Speed Boost Activated| Speed before boost:" + speedIncreaseRate);
         speedIncreaseRate += (speedIncreaseRate*.60f);
+        terrainSpeed += (terrainSpeed*3);
         Debug.Log("Speed after boost:" + speedIncreaseRate);
     }
 
@@ -88,6 +82,8 @@ public class TerrainManagerScript : MonoBehaviour
         if (speedIncreaseRate >= 0.00000005f)
         {
             speedIncreaseRate -= (speedIncreaseRate*.30f);
+            terrainSpeed -= (terrainSpeed*.5f);
+
         }
         Debug.Log("Speed after reduction:" + speedIncreaseRate);
     }

@@ -18,13 +18,19 @@ public class GameManager : MonoBehaviour
         textManager = GameObject.Find("TextManager");
         audio = GetComponent<AudioSource>();
         gameOverUI.SetActive(false);
+        Invoke("startGeneration",5);
     }
 
     // Update is called once per frame
     void Update()
     {
-        
     }
+    
+    void startGeneration()
+    {
+        terrainManager.GetComponent<TerrainManagerScript>().generateTerrain();
+    }
+    
 
     public void gameOver(int finalScore)
     {
